@@ -18,9 +18,20 @@ def turn_light(number, on):
 				GPIO.output(lights[number], GPIO.HIGH)
 			else:
 				GPIO.output(lights[number], GPIO.LOW)
+		elif number == 10:
+			turn_all_lights(True)
+		elif number == 11:
+			turn_all_lights(False)
 		else:
 			print("No existe esa luz, intente con otra")
 	except:
 		print("No ingreso un numero valido")
 
-
+# Parameter on checks if it turn on or off.
+def turn_all_lights(on):
+	if on:
+		for light in lights:
+			GPIO.output(light, GPIO.HIGH)
+	else:
+		for light in lights:
+			GPIO.output(light, GPIO.LOW)
