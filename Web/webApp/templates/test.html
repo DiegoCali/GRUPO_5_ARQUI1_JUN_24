@@ -171,12 +171,19 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Iluminacion general</h4>
-                                        <p class="card-description">Encender luces</p>
+                                        <p class="card-description">
+                                            {% if iluminacionGeneral is True %}
+                                            Luces encendidas
+                                            {% else %}
+                                            Luces apagadas
+                                            {% endif %}
+                                        </p>
                                         <div class="template-demo">
-                                          
-                                          <button type="button" class="btn btn-success">Encender</button>
+                                        <form method="post" action="{% url 'encenderIluminacionGeneral' %}">
+                                        {% csrf_token %}
+                                          <button type="submit" class="btn btn-success">Encender</button>
                                           <button type="button" class="btn btn-danger">Apagar</button>
-                                          
+                                        </form>
                                         </div>
                                       </div>
                                     </div>
@@ -195,7 +202,13 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Iluminacion exterior</h4>
-                                        <p class="card-description">Encender luces</p>
+                                        <p class="card-description">
+                                            {% if iluminacionExterior is True %}
+                                            Luces encendidas
+                                            {% else %}
+                                            Luces apagadas
+                                            {% endif %}
+                                        </p>
                                         <div class="template-demo">
                                           
                                           <button type="button" class="btn btn-success">Encender</button>

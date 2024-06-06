@@ -17,8 +17,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from webApp.views import test
+from webApp.views import encenderIluminacionGeneral
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', test),
+    path('encenderIluminacionGeneral/', encenderIluminacionGeneral, name='encenderIluminacionGeneral'),
+
 ]
