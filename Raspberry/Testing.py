@@ -1,4 +1,5 @@
 from Lights import *
+from Clients import *
 
 def test_lights():
 	print("Ingrese el numero de luz que desea:")
@@ -29,6 +30,27 @@ def test_lights():
 		return False
 	return True
 
+def test_clients():
+	print("Que desea convertir? [b/n]")
+	option = input()
+	if option == "b":
+		print("Ingrese el numero que desea convertir")
+		bin_arr = []
+		for i in range(0, 4):
+			num = int(input())
+			bin_arr.append(num)
+		print(f"Su numero es: {convert_num(bin_arr)}")
+	else:
+		print("Ingrese el numero que desea convertir")
+		num = int(input())
+		print(f"Su numero en binario es: {convert_bin(num)}")
+	print("Desea Salir? [y/n]")
+	out = input()
+	if out == "y":
+		return False
+	return True
+
+
 running = True
 while running:
-	running = test_lights()
+	running = test_clients()
