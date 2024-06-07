@@ -31,19 +31,10 @@ def test_lights():
 	return True
 
 def test_clients():
-	print("Que desea convertir? [b/n]")
-	option = input()
-	if option == "b":
-		print("Ingrese el numero que desea convertir")
-		bin_arr = []
-		for i in range(0, 4):
-			num = int(input())
-			bin_arr.append(num)
-		print(f"Su numero es: {convert_num(bin_arr)}")
-	else:
-		print("Ingrese el numero que desea convertir")
-		num = int(input())
-		print(f"Su numero en binario es: {convert_bin(num)}")
+	print("Ingrese el numero que desea mostrar")
+	num = int(input())
+	show_binary(num)
+	print(f"Mostrando numero {num}")
 	print("Desea Salir? [y/n]")
 	out = input()
 	if out == "y":

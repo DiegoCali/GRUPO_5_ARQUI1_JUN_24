@@ -5,6 +5,9 @@ GPIO.setwarnings(False)
 
 pin_arr = [29, 31, 33, 35] # 1, 2, 4, 8
 
+for pin in pin_arr:
+	GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
+
 binary_nums = [
     [0, 0, 0, 0],
     [0, 0, 0, 1],
@@ -36,3 +39,15 @@ def convert_num(binary):
             num = i
         i = i + 1
     return num
+
+def show_binary(num):
+	clean_display()
+	binary = convert_bin(num)
+	i = 0
+	for j in range(0,4):
+		if binary[j] == 1:
+			GPIO.output(pin_arr[j], GPIO.HIGH)
+
+def clean_display():
+	for pin in pin_arr:
+		GPIO.output(pin, GPIO.LOW)
