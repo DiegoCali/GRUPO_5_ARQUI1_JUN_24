@@ -1,5 +1,5 @@
 import RPi.GPIO as GPIO
-from librerias.LCD import LCD as lcd
+from lib.LCD import LCD as lcd
 
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
