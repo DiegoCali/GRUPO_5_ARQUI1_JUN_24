@@ -32,12 +32,20 @@ def set_transport_band():
     testFunctions.transport_band_action(data['state'])
     return jsonify(data)
 
+@app.route('/transport_band_status', methods=['GET'])
+def get_transport_band_status():
+    return jsonify({'state': testFunctions.transport_band_state})
+
 
 @app.route('/Garage', methods=['POST'])
 def set_garage():
     data = request.get_json()
     testFunctions.garage_action(data['state'])
     return jsonify(data)
+
+@app.route('/garage_status', methods=['GET'])
+def get_garage_status():
+    return jsonify({'state': testFunctions.garage_state})
 
 
 @app.route('/actual_people', methods=['GET'])
@@ -55,6 +63,10 @@ def set_alarm():
     data = request.get_json()
     testFunctions.alarm_action(data['state'])
     return jsonify(data)
+
+@app.route('/alarm_status', methods=['GET'])
+def get_alarm_status():
+    return jsonify({'state': testFunctions.alarm_state})
 
 
 if __name__ == '__main__':

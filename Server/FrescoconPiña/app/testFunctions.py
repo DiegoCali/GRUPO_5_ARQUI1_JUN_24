@@ -3,6 +3,9 @@ counter_people = 0
 lights = [3, 5, 7, 11, 13, 15, 16, 19, 21, 23]
 display = [1, 2, 3, 4]
 transport_band = [5]
+transport_band_state = 0
+garage_state = 0
+alarm_state = 0
 
 
 def lights_actions(num, state):
@@ -24,12 +27,21 @@ def actual_people_action():
 
 
 def transport_band_action(state):
+    global transport_band_state
+    transport_band_state = state
     print(f"Transport band is {state}")
 
 
+
+
+
 def garage_action(state):
+    global garage_state
+    garage_state = state
     print(f"Garage is {state}")
 
 
 def alarm_action(state):
+    global alarm_state
+    alarm_state = state
     print(f"Alarm is {state}")
