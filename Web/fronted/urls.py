@@ -17,11 +17,19 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from webApp.views import test
-from webApp.views import encenderIluminacionGeneral
+
+from webApp.views import set_all_lights_states
+
+from webApp.views import set_lights_states
+from webApp.views import set_transport_band
+from webApp.views import set_garage
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', test),
-    path('encenderIluminacionGeneral/', encenderIluminacionGeneral, name='encenderIluminacionGeneral'),
+    path('set_all_lights_states/', set_all_lights_states, name='set_all_lights_states'),
+    path('set_lights_states/', set_lights_states, name='set_lights_states'),
+    path('set_transport_band/', set_transport_band, name='set_transport_band'),
+    path('set_garage/', set_garage, name='set_garage'),
 
 ]

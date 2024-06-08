@@ -134,28 +134,47 @@
                           <div class="statistics-details d-flex align-items-center justify-content-between">
                             <div>
                               <p class="statistics-title">Clientes entrando</p>
-                              <h3 class="rate-percentage">3</h3>
-                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+1</span></p>
+                              <h3 class="rate-percentage"> {{ data.totalClientsIn }}</h3>
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+{{ data.clientsIn }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Clientes saliendo</p>
-                              <h3 class="rate-percentage">2</h3>
-                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-1</span></p>
+                              <h3 class="rate-percentage">{{ data.totalClientsOut }}</h3>
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-{{ data.clientsOut }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Banda transportadora</p>
+                              {% if data.conditionConveyorBelt is True %}
                               <h3 class="rate-percentage">Movimiento</h3>
                               <p class="text-success d-flex"><span>Movimiento</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Detenida</h3>
+                                <p class="text-danger d-flex"><span>Detenida</span></p>
+                                {% endif %}
+                              
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Porton</p>
+
+                              {% if data.gate is True %}
                               <h3 class="rate-percentage">Activado</h3>
                               <p class="text-success d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-danger d-flex"><span>Cerrando</span></p>
+                                {% endif %}
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Alarma perimetral</p>
+                              {% if data.alarm is True %}
                               <h3 class="rate-percentage">Activado</h3>
-                              <p class="text-danger d-flex"><span>Activado</span></p>
+                              <p class="text-danger d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-success d-flex"><span>Cerrando</span></p>
+                                {% endif %}
                             </div>
                             
                           </div>
@@ -172,17 +191,18 @@
                                       <div class="card-body">
                                         <h4 class="card-title">Iluminacion general</h4>
                                         <p class="card-description">
-                                            {% if iluminacionGeneral is True %}
+                                            {% if lights.9.state is True %}
                                             Luces encendidas
                                             {% else %}
                                             Luces apagadas
                                             {% endif %}
                                         </p>
                                         <div class="template-demo">
-                                        <form method="post" action="{% url 'encenderIluminacionGeneral' %}">
+                                        <form method="post" action="{% url 'set_all_lights_states' %}">
                                         {% csrf_token %}
-                                          <button type="submit" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
+                                          <input type="text" value="9" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
                                         </form>
                                         </div>
                                       </div>
@@ -203,18 +223,20 @@
                                       <div class="card-body">
                                         <h4 class="card-title">Iluminacion exterior</h4>
                                         <p class="card-description">
-                                            {% if iluminacionExterior is True %}
-                                            Luces encendidas
-                                            {% else %}
-                                            Luces apagadas
-                                            {% endif %}
-                                        </p>
-                                        <div class="template-demo">
-                                          
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                          {% if lights.8.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="8" name="id" style="display: none;">
+                                        <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -251,33 +273,52 @@
                       
                     </div>
                     <div class="tab-pane fade show " id="habitaciones" role="tabpanel" aria-labelledby="habitaciones">
-                      <div class="row">
+                    <div class="row">
                         <div class="col-sm-12">
                           <div class="statistics-details d-flex align-items-center justify-content-between">
-                            <div>
+                             <div>
                               <p class="statistics-title">Clientes entrando</p>
-                              <h3 class="rate-percentage">3</h3>
-                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+1</span></p>
+                              <h3 class="rate-percentage"> {{ data.totalClientsIn }}</h3>
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+{{ data.clientsIn }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Clientes saliendo</p>
-                              <h3 class="rate-percentage">2</h3>
-                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-1</span></p>
+                              <h3 class="rate-percentage">{{ data.totalClientsOut }}</h3>
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-{{ data.clientsOut }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Banda transportadora</p>
+                              {% if data.conditionConveyorBelt is True %}
                               <h3 class="rate-percentage">Movimiento</h3>
                               <p class="text-success d-flex"><span>Movimiento</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Detenida</h3>
+                                <p class="text-danger d-flex"><span>Detenida</span></p>
+                                {% endif %}
+                              
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Porton</p>
+
+                              {% if data.gate is True %}
                               <h3 class="rate-percentage">Activado</h3>
                               <p class="text-success d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-danger d-flex"><span>Cerrando</span></p>
+                                {% endif %}
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Alarma perimetral</p>
+                              {% if data.alarm is True %}
                               <h3 class="rate-percentage">Activado</h3>
-                              <p class="text-danger d-flex"><span>Activado</span></p>
+                              <p class="text-danger d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-success d-flex"><span>Cerrando</span></p>
+                                {% endif %}
                             </div>
                             
                           </div>
@@ -293,12 +334,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Recepcion</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.0.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="0" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -315,12 +365,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Area de conferencias</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.1.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="1" name="id" style="display: none;">
+                                        <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -337,12 +396,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Area de trabajo</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.2.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="2" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -359,12 +427,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Area administrativa</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.3.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="3" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -381,12 +458,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Area de carga y descarga</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.4.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="4" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -403,12 +489,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Cafeteria</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.5.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="5" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -425,12 +520,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Baño</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.6.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="6" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -447,12 +551,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Exterior</h4>
-                                        <p class="card-description">Luces apagadas</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Encender</button>
-                                          <button type="button" class="btn btn-danger">Apagar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if lights.7.state is True %}
+                                          Luces encendidas
+                                          {% else %}
+                                          Luces apagadas
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_lights_states' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="7" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -490,33 +603,52 @@
                       
                     </div>
                     <div class="tab-pane fade show " id="banda" role="tabpanel" aria-labelledby="banda">
-                      <div class="row">
+                    <div class="row">
                         <div class="col-sm-12">
                           <div class="statistics-details d-flex align-items-center justify-content-between">
-                            <div>
+                             <div>
                               <p class="statistics-title">Clientes entrando</p>
-                              <h3 class="rate-percentage">3</h3>
-                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+1</span></p>
+                              <h3 class="rate-percentage"> {{ data.totalClientsIn }}</h3>
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+{{ data.clientsIn }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Clientes saliendo</p>
-                              <h3 class="rate-percentage">2</h3>
-                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-1</span></p>
+                              <h3 class="rate-percentage">{{ data.totalClientsOut }}</h3>
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-{{ data.clientsOut }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Banda transportadora</p>
+                              {% if data.conditionConveyorBelt is True %}
                               <h3 class="rate-percentage">Movimiento</h3>
                               <p class="text-success d-flex"><span>Movimiento</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Detenida</h3>
+                                <p class="text-danger d-flex"><span>Detenida</span></p>
+                                {% endif %}
+                              
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Porton</p>
+
+                              {% if data.gate is True %}
                               <h3 class="rate-percentage">Activado</h3>
                               <p class="text-success d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-danger d-flex"><span>Cerrando</span></p>
+                                {% endif %}
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Alarma perimetral</p>
+                              {% if data.alarm is True %}
                               <h3 class="rate-percentage">Activado</h3>
-                              <p class="text-danger d-flex"><span>Activado</span></p>
+                              <p class="text-danger d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-success d-flex"><span>Cerrando</span></p>
+                                {% endif %}
                             </div>
                             
                           </div>
@@ -532,12 +664,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Banda transportadora</h4>
-                                        <p class="card-description">Detenida</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Activar</button>
-                                          <button type="button" class="btn btn-danger">Desactivar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if data.conditionConveyorBelt is True %}
+                                          Movimiento
+                                          {% else %}
+                                          Detenida
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_transport_band' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="7" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
@@ -576,33 +717,52 @@
                       
                     </div>
                     <div class="tab-pane fade show " id="carga" role="tabpanel" aria-labelledby="carga">
-                      <div class="row">
+                    <div class="row">
                         <div class="col-sm-12">
                           <div class="statistics-details d-flex align-items-center justify-content-between">
-                            <div>
+                             <div>
                               <p class="statistics-title">Clientes entrando</p>
-                              <h3 class="rate-percentage">3</h3>
-                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+1</span></p>
+                              <h3 class="rate-percentage"> {{ data.totalClientsIn }}</h3>
+                              <p class="text-success d-flex"><i class="mdi mdi-menu-up"></i><span>+{{ data.clientsIn }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Clientes saliendo</p>
-                              <h3 class="rate-percentage">2</h3>
-                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-1</span></p>
+                              <h3 class="rate-percentage">{{ data.totalClientsOut }}</h3>
+                              <p class="text-danger d-flex"><i class="mdi mdi-menu-down"></i><span>-{{ data.clientsOut }}</span></p>
                             </div>
                             <div>
                               <p class="statistics-title">Banda transportadora</p>
+                              {% if data.conditionConveyorBelt is True %}
                               <h3 class="rate-percentage">Movimiento</h3>
                               <p class="text-success d-flex"><span>Movimiento</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Detenida</h3>
+                                <p class="text-danger d-flex"><span>Detenida</span></p>
+                                {% endif %}
+                              
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Porton</p>
+
+                              {% if data.gate is True %}
                               <h3 class="rate-percentage">Activado</h3>
                               <p class="text-success d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-danger d-flex"><span>Cerrando</span></p>
+                                {% endif %}
+                              
                             </div>
                             <div>
                               <p class="statistics-title">Alarma perimetral</p>
+                              {% if data.alarm is True %}
                               <h3 class="rate-percentage">Activado</h3>
-                              <p class="text-danger d-flex"><span>Activado</span></p>
+                              <p class="text-danger d-flex"><span>Abriendo</span></p>
+                                {% else %}
+                                <h3 class="rate-percentage">Desactivado</h3>
+                                <p class="text-success d-flex"><span>Cerrando</span></p>
+                                {% endif %}
                             </div>
                             
                           </div>
@@ -618,12 +778,21 @@
                                     <div class="col-md-12">
                                       <div class="card-body">
                                         <h4 class="card-title">Area de carga</h4>
-                                        <p class="card-description">Detenida</p>
-                                        <div class="template-demo">                    
-                                          <button type="button" class="btn btn-success">Activar</button>
-                                          <button type="button" class="btn btn-danger">Desactivar</button>
-                                          
-                                        </div>
+                                        <p class="card-description">
+                                          {% if data.gate is True %}
+                                          Movimiento
+                                          {% else %}
+                                          Detenida
+                                          {% endif %}
+                                      </p>
+                                      <div class="template-demo">
+                                      <form method="post" action="{% url 'set_garage' %}">
+                                      {% csrf_token %}
+                                        <input type="text" value="7" name="id" style="display: none;">
+                                          <button type="submit" name="action" class="btn btn-success" value="on">Encender</button>
+                                        <button type="submit" name="action" class="btn btn-danger" value="off">Apagar</button>
+                                      </form>
+                                      </div>
                                       </div>
                                     </div>
                                     
