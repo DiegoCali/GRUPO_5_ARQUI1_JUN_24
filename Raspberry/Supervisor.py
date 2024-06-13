@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 import threading
 from Raspberry.Gates import open_gates, close_gates
 from Raspberry.Lights import turn_light
+from Raspberry.ConvBelt import start_motor, stop_motor
 from rpi_lcd import LCD
 from signal import signal, SIGTERM, SIGHUP
 from time import sleep
@@ -40,6 +41,11 @@ class butler:
         else:
             open_gates()
             self.gate_state = 1
+
+    def belt_activate(self):
+        start_motor()
+        sleep(1)
+        stop_motor()
 
     def messages(self):
         while True:
