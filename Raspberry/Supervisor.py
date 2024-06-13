@@ -3,6 +3,7 @@ import threading
 from Raspberry.Gates import open_gates, close_gates
 from Raspberry.Lights import turn_light
 from Raspberry.ConvBelt import start_motor, stop_motor
+from Raspberry.Alarm import turn_on_buzzer_with_timmer
 from rpi_lcd import LCD
 from signal import signal, SIGTERM, SIGHUP
 from time import sleep
@@ -12,6 +13,7 @@ GPIO.setwarnings(False)
 
 GPIO.setup(18, GPIO.IN) #primer sensor (este irá en la entrada)
 GPIO.setup(22, GPIO.IN) #segundo sensor (este irá adentro)
+GPIO.setup(31, GPIO.IN) #sensor perimetral
 #GPIO.setup(33, GPIO.IN) #sensor de alarma
 
 def safe_exit(signum, frame):
@@ -89,9 +91,19 @@ class butler:
                 print("Contador: ", self.clients)
             
             sleep(1)
+    
+    def perimeter_alarm(self):
+        while True:
+            if GPIO.input(32):
+                turn_on_buzzer_with_timmer(10)
+        
 
     def start_supervisor(self):
         th1 = threading.Thread(target=self.messages, args=())
         th2 = threading.Thread(target=self.clients_counter, args=())
+        th3 = threading.Thread(target=self.perimeter_alarm, args=())
         th1.start()
         th2.start()
+        th3.start()
+        
+    

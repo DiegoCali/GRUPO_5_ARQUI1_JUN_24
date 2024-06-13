@@ -4,7 +4,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
 # lights = [3, 5, 7, 11, 13, 15, 16, 19, 21, 23] # Pins that will be used for lights
-lights = [7, 11, 13, 15, 19, 21, 23, 29, 31] # Pins that will be used for lights
+lights = [7, 11, 13, 15, 19, 21, 23, 29] # Pins that will be used for lights
 
 for light in lights:	
 	GPIO.setup(light, GPIO.OUT, initial=GPIO.LOW)

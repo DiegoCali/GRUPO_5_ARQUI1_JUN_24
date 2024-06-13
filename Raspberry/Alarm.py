@@ -5,7 +5,7 @@ GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
 #el pin que se va a usar para encender el buzzer
-pin = 33
+pin = 40
 GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
 
 def turn_on_buzzer_with_timmer(time): #time in seconds
