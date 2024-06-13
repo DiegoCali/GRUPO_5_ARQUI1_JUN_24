@@ -44,7 +44,7 @@ class butler:
 
     def belt_activate(self):
         start_motor()
-        sleep(1)
+        sleep(5)
         stop_motor()
 
     def messages(self):

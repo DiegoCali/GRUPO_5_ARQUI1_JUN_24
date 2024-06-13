@@ -34,6 +34,7 @@ def set_all_lights_states():
 def set_transport_band():
     data = request.get_json()
     print(data)
+    new_butler.belt_activate()
     return jsonify(data)
 
 @app.route('/transport_band_status', methods=['GET'])
