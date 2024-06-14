@@ -1,6 +1,8 @@
 import requests
 from django.shortcuts import render
 from django.http import JsonResponse
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 
 # Create your views here.
 class MainData:
@@ -174,3 +176,14 @@ def set_garage(request):
             return JsonResponse({'message': 'Failed to set garage state'}, status=500)
     else:
         return JsonResponse({'message': 'Invalid request method'}, status=400)
+
+
+
+@api_view(['POST'])
+def update_page(request):
+    global data
+    global lights        
+    loadData()
+    print("Updating page")
+    return render(request, 'test.html', { 'lights': lights, 'data': data})
+

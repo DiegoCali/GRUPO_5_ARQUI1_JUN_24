@@ -23,6 +23,7 @@ from webApp.views import set_all_lights_states
 from webApp.views import set_lights_states
 from webApp.views import set_transport_band
 from webApp.views import set_garage
+from webApp.views import update_page
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,5 +32,6 @@ urlpatterns = [
     path('set_lights_states/', set_lights_states, name='set_lights_states'),
     path('set_transport_band/', set_transport_band, name='set_transport_band'),
     path('set_garage/', set_garage, name='set_garage'),
+    path('update_page/', update_page, name='update_page'),
 
 ]

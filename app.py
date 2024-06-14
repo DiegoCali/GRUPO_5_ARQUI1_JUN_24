@@ -2,6 +2,7 @@ import RPi.GPIO as GPIO
 from flask_cors import CORS
 from flask import Flask, request, jsonify
 from Raspberry.Supervisor import butler
+import requests
 
 app = Flask(__name__)
 CORS(app)
@@ -74,5 +75,16 @@ def get_alarm_status():
     return jsonify({'state': 0})
 
 
+
+@app.route('/trigger-update', methods=['POST'])
+def trigger_update():
+    url = 'http://127.0.0.1:8000/update_page/'
+
+    requests.post(url)
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
+
+
