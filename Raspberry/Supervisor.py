@@ -4,6 +4,7 @@ from Raspberry.Gates import open_gates, close_gates
 from Raspberry.Lights import turn_light
 from Raspberry.ConvBelt import start_motor, stop_motor
 from Raspberry.Alarm import turn_on_buzzer_with_timmer
+from Raspberry.Clients import show_binary
 from rpi_lcd import LCD
 from signal import signal, SIGTERM, SIGHUP
 from time import sleep
@@ -89,14 +90,13 @@ class butler:
                 else:
                     b_prev = 1
                 print("Contador: ", self.clients)
-            
+            show_binary(self.clients)
             sleep(1)
-    
+                
     def perimeter_alarm(self):
         while True:
-            if GPIO.input(32):
-                turn_on_buzzer_with_timmer(10)
-        
+            if GPIO.input(31):
+                turn_on_buzzer_with_timmer(10)   
 
     def start_supervisor(self):
         th1 = threading.Thread(target=self.messages, args=())

@@ -1,8 +1,8 @@
-from Gates import *
-from time import sleep
+import RPi.GPIO as GPIO
 
-open_gates()
-sleep(2)
-close_gates()
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+
+GPIO.setup(40, GPIO.OUT, initial=GPIO.HIGH)
 
     

@@ -8,16 +8,9 @@ GPIO.setwarnings(False)
 pin = 40
 GPIO.setup(pin, GPIO.OUT, initial=GPIO.LOW)
 
-def turn_on_buzzer_with_timmer(time): #time in seconds
-    try:
-        if time.isnumeric():
-            time = float(time)
-        else:
-            print ("El tiempo debe de ser un numero")
-            return
-
-        GPIO.output(pin, GPIO.HIGH)
-        sleep(time)
-        GPIO.output(pin, GPIO.LOW)
-    except:
-        print("No se pudo cambiar el estado del buzzer")
+def turn_on_buzzer_with_timmer(time): #time in second	
+	GPIO.output(pin, GPIO.HIGH)
+	print(GPIO.HIGH)
+	sleep(time)
+	GPIO.output(pin, GPIO.LOW)
+	print(GPIO.LOW)
