@@ -15,7 +15,6 @@ GPIO.setwarnings(False)
 GPIO.setup(18, GPIO.IN) #primer sensor (este irá en la entrada)
 GPIO.setup(22, GPIO.IN) #segundo sensor (este irá adentro)
 GPIO.setup(31, GPIO.IN) #sensor perimetral
-#GPIO.setup(33, GPIO.IN) #sensor de alarma
 
 def safe_exit(signum, frame):
     exit(1)
@@ -47,7 +46,7 @@ class butler:
 
     def belt_activate(self):
         start_motor()
-        sleep(5)
+        sleep(1)
         stop_motor()
 
     def messages(self):
@@ -78,25 +77,29 @@ class butler:
             if a_state == 1 and a_prev == 0:
                 if b_prev == 1:
                     self.clients = self.clients - 1   
-                    b_prev = 0         
+                    print("Salio Cliente")
+                    b_prev = 0
+                    show_binary(self.clients)      
+                    sleep(1)   
                 else:
                     a_prev = 1
-                print("Contador: ", self.clients)
             
             if b_state == 1 and b_prev == 0:
                 if a_prev == 1:
                     self.clients = self.clients + 1
+                    print("Entro Cliente")
                     a_prev = 0 
+                    show_binary(self.clients)
+                    sleep(1)
                 else:
                     b_prev = 1
-                print("Contador: ", self.clients)
-            show_binary(self.clients)
-            sleep(1)
+            sleep(0.5)
                 
     def perimeter_alarm(self):
         while True:
             if GPIO.input(31):
-                turn_on_buzzer_with_timmer(10)   
+                print("Perimetro")
+                turn_on_buzzer_with_timmer(10)
 
     def start_supervisor(self):
         th1 = threading.Thread(target=self.messages, args=())
