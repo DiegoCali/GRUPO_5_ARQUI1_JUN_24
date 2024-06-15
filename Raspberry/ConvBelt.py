@@ -8,11 +8,11 @@ pinLR = 10 #luz roja
 pinM = 12 #motor
 GPIO.setup(pinLV, GPIO.OUT, initial=GPIO.LOW)
 GPIO.setup(pinLR, GPIO.OUT, initial=GPIO.HIGH)
-GPIO.setup(pinM, GPIO.OUT, initial=GPIO.LOW)
+GPIO.setup(pinM, GPIO.OUT, initial=GPIO.HIGH)
 
 def start_motor():
     try:
-        GPIO.output(pinM, GPIO.HIGH)
+        GPIO.output(pinM, GPIO.LOW)
         GPIO.output(pinLV, GPIO.HIGH)
         GPIO.output(pinLR, GPIO.LOW)
     except:
@@ -20,7 +20,7 @@ def start_motor():
 
 def stop_motor():
     try:
-        GPIO.output(pinM, GPIO.LOW)
+        GPIO.output(pinM, GPIO.HIGH)
         GPIO.output(pinLV, GPIO.LOW)
         GPIO.output(pinLR, GPIO.HIGH)
     except:
