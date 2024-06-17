@@ -72,7 +72,7 @@ def set_alarm():
 
 @app.route('/alarm_status', methods=['GET'])
 def get_alarm_status():
-    return jsonify({'state': 0})
+    return jsonify({'state': new_butler.alarm_activated})
 
 
 

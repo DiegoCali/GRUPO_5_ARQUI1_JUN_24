@@ -12,9 +12,10 @@ from time import sleep
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 
-GPIO.setup(18, GPIO.IN) #primer sensor (este irá en la entrada)
-GPIO.setup(22, GPIO.IN) #segundo sensor (este irá adentro)
-GPIO.setup(31, GPIO.IN) #sensor perimetral
+GPIO.setup(18, GPIO.IN) # primer sensor (este irá en la entrada)
+GPIO.setup(22, GPIO.IN) # segundo sensor (este irá adentro)
+GPIO.setup(31, GPIO.IN) # sensor perimetral
+GPIO.setup(16, GPIO.IN) # sensor de luz
 
 def safe_exit(signum, frame):
     exit(1)
@@ -26,8 +27,10 @@ class butler:
     def __init__(self):
         self.lcd = LCD()
         self.clients = 0
-        self.gate_state = 0
-        self.all_lights = 0
+        self.gate_state = False
+        self.all_lights = False
+        self.exterior_lights = False
+        self.alarm_activated = True
 
     def light_action(self, lights, state):
         if lights == -1:
@@ -39,10 +42,10 @@ class butler:
     def gate_action(self, state):
         if state == 1:
             close_gates()
-            self.gate_state = 0
+            self.gate_state = False
         else:
             open_gates()
-            self.gate_state = 1
+            self.gate_state = True
 
     def belt_activate(self):
         start_motor()
@@ -53,16 +56,13 @@ class butler:
         while True:
             self.lcd.text("<G5_ARQUI1>", 1)
             self.lcd.text("<VACAS_JUN_24>", 2)
-            sleep(2)
+            sleep(4)
             self.lcd.text(f"Clientes: {self.clients}", 1)
-            self.lcd.text("Luces: Off", 2)
-            sleep(2)
-            self.lcd.text("Puertas: Cerradas", 1)
-            self.lcd.text("Banda: Off", 2)
-            sleep(2)
-            self.lcd.text("Sensores: Off", 1)
-            self.lcd.text("Alarma: Off", 2)
-            sleep(2)
+            self.lcd.text(f"Luces: {self.all_lights}", 2)
+            sleep(3)
+            self.lcd.text(f"Porton: {self.gate_state}", 1)
+            self.lcd.text(f"Alarma: {self.alarm_activated}", 2)
+            sleep(3)
 
     def clients_counter(self):
         a_state = 0
@@ -97,16 +97,24 @@ class butler:
                 
     def perimeter_alarm(self):
         while True:
-            if GPIO.input(31):
+            if GPIO.input(31) and self.alarm_activated:
                 print("Perimetro")
                 turn_on_buzzer_with_timmer(10)
+
+    def daylight_sensor(self):
+        while True:
+            if GPIO.input(16):
+                turn_light(7, True)
+            
 
     def start_supervisor(self):
         th1 = threading.Thread(target=self.messages, args=())
         th2 = threading.Thread(target=self.clients_counter, args=())
         th3 = threading.Thread(target=self.perimeter_alarm, args=())
+        th4 = threading.Thread(target=self.daylight_sensor, args=())
         th1.start()
         th2.start()
         th3.start()
+        th4.start()
         
     
